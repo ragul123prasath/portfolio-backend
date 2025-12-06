@@ -4,28 +4,28 @@ const router = express.Router();
 const { 
   createTestimonial,
   getTestimonials,
-  getTestimonialById,   // ✅ Add this import
+  getTestimonialById,
   updateTestimonial,
   deleteTestimonial
 } = require("../controllers/testimonialController");
-
-const authMiddleware = require("../middleware/authMiddleware");
 
 // ---------------------
 // Public Routes
 // ---------------------
 
+// Get all testimonials
 router.get("/", getTestimonials);
 
 // Get one testimonial by ID
 router.get("/:id", getTestimonialById);
 
-// ---------------------
-// Admin Protected Routes
-// ---------------------
+// Create a testimonial (public)
+router.post("/", createTestimonial);
 
-router.post("/", authMiddleware, createTestimonial);
-router.put("/:id", authMiddleware, updateTestimonial);
-router.delete("/:id", authMiddleware, deleteTestimonial);
+// Update a testimonial (public)
+router.put("/:id", updateTestimonial);
+
+// Delete a testimonial (public)
+router.delete("/:id", deleteTestimonial);
 
 module.exports = router;
