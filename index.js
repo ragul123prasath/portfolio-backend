@@ -16,6 +16,7 @@ mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected ✔️"))
   .catch((err) => console.error("MongoDB Connection Error ❌", err));
+console.log("ENV MONGO_URI =", process.env.MONGO_URI);
 
 // Import Routes
 import testimonialRoutes from "./routes/testimonialRoutes.js";
