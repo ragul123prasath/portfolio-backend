@@ -1,40 +1,44 @@
-const Testimonial = require("../models/Testimonial");
+import Testimonial from "../models/Testimonial.js";
 
 // Get all testimonials
-exports.getTestimonials = async (req, res) => {
+export const getTestimonials = async (req, res) => {
   try {
-    const items = await Testimonial.find();
-    res.json(items);
+    const testimonials = await Testimonial.find();
+    res.json(testimonials);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-// Get testimonial by ID  ✅ REQUIRED FUNCTION
-exports.getTestimonialById = async (req, res) => {
+// Get testimonial by ID
+export const getTestimonialById = async (req, res) => {
   try {
-    const item = await Testimonial.findById(req.params.id);
-    res.json(item);
+    const testimonial = await Testimonial.findById(req.params.id);
+    res.json(testimonial);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
 // Create testimonial
-exports.createTestimonial = async (req, res) => {
+export const createTestimonial = async (req, res) => {
   try {
-    const item = new Testimonial(req.body);
-    await item.save();
-    res.json(item);
+    const testimonial = new Testimonial(req.body);
+    await testimonial.save();
+    res.json(testimonial);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
 // Update testimonial
-exports.updateTestimonial = async (req, res) => {
+export const updateTestimonial = async (req, res) => {
   try {
-    const updated = await Testimonial.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updated = await Testimonial.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
     res.json(updated);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -42,7 +46,7 @@ exports.updateTestimonial = async (req, res) => {
 };
 
 // Delete testimonial
-exports.deleteTestimonial = async (req, res) => {
+export const deleteTestimonial = async (req, res) => {
   try {
     await Testimonial.findByIdAndDelete(req.params.id);
     res.json({ message: "Testimonial deleted" });

@@ -1,32 +1,23 @@
-const express = require("express");
+import express from "express";
+import {
+  createProject,
+  getProjects,
+  getProjectById,
+  updateProject,
+  deleteProject
+} from "../controllers/projectController.js";
+
+import authMiddleware from "../middleware/authMiddleware.js";
+
 const router = express.Router();
 
-const { 
-  createProject, 
-  getProjects, 
-  getProjectById,   // ✅ ADD THIS
-  updateProject, 
-  deleteProject 
-} = require("../controllers/projectController");
-
-const authMiddleware = require("../middleware/authMiddleware");
-
-// ---------------------
-// Public Routes
-// ---------------------
-
-// Get all projects
+// Public routes
 router.get("/", getProjects);
-
-// Get single project by ID  ✅ REQUIRED FOR UI
 router.get("/:id", getProjectById);
 
-// ---------------------
-// Admin Protected CRUD
-// ---------------------
-
+// Protected routes
 router.post("/", authMiddleware, createProject);
 router.put("/:id", authMiddleware, updateProject);
 router.delete("/:id", authMiddleware, deleteProject);
 
-module.exports = router;
+export default router;

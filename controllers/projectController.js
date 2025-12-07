@@ -1,17 +1,7 @@
-const Project = require("../models/Project");
+import Project from "../models/Project.js";
 
-// Create Project
-exports.createProject = async (req, res) => {
-  try {
-    const project = await Project.create(req.body);
-    res.json(project);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
-
-// Get ALL Projects
-exports.getProjects = async (req, res) => {
+// Get all projects
+export const getProjects = async (req, res) => {
   try {
     const projects = await Project.find();
     res.json(projects);
@@ -20,8 +10,8 @@ exports.getProjects = async (req, res) => {
   }
 };
 
-// ⭐ Get ONE Project by ID (THIS WAS MISSING)
-exports.getProjectById = async (req, res) => {
+// Get project by ID
+export const getProjectById = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
     res.json(project);
@@ -30,22 +20,33 @@ exports.getProjectById = async (req, res) => {
   }
 };
 
-// Update Project
-exports.updateProject = async (req, res) => {
+// Create project
+export const createProject = async (req, res) => {
   try {
-    const project = await Project.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+    const project = new Project(req.body);
+    await project.save();
     res.json(project);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-// Delete Project
-exports.deleteProject = async (req, res) => {
+// Update project
+export const updateProject = async (req, res) => {
+  try {
+    const updated = await Project.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Delete project
+export const deleteProject = async (req, res) => {
   try {
     await Project.findByIdAndDelete(req.params.id);
     res.json({ message: "Project deleted" });

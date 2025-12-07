@@ -1,31 +1,23 @@
-const express = require("express");
-const router = express.Router();
-
-const { 
+import express from "express";
+import {
   createTestimonial,
   getTestimonials,
   getTestimonialById,
   updateTestimonial,
   deleteTestimonial
-} = require("../controllers/testimonialController");
+} from "../controllers/testimonialController.js";
 
-// ---------------------
-// Public Routes
-// ---------------------
+import authMiddleware from "../middleware/authMiddleware.js";
 
-// Get all testimonials
+const router = express.Router();
+
+// Public routes
 router.get("/", getTestimonials);
-
-// Get one testimonial by ID
 router.get("/:id", getTestimonialById);
 
-// Create a testimonial (public)
-router.post("/", createTestimonial);
+// Protected admin routes
+router.post("/", authMiddleware, createTestimonial);
+router.put("/:id", authMiddleware, updateTestimonial);
+router.delete("/:id", authMiddleware, deleteTestimonial);
 
-// Update a testimonial (public)
-router.put("/:id", updateTestimonial);
-
-// Delete a testimonial (public)
-router.delete("/:id", deleteTestimonial);
-
-module.exports = router;
+export default router;
